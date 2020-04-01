@@ -1,0 +1,21 @@
+name: CodeQL Distribution Test
+on:
+  repository_dispatch:
+    types: [codeql-dist-test]
+jobs:
+  analysis:
+    name: CodeQL analysis
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: debugging
+      run: |
+        echo ${{ github.event.client_payload.tools }}
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - uses: Anthophila/codeql-action/codeql/init@master
+      with:
+        languages: javascript
+        tools: ${{ github.event.client_payload.tools }}
+    - uses: Anthophila/codeql-action/codeql/finish@master
